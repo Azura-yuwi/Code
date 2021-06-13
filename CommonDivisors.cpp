@@ -3,8 +3,6 @@ using namespace std;
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(0);
     int n;
     cin >> n;
     
@@ -23,7 +21,7 @@ int main()
             if(num[i]%j == 0)
             {
                 divisors[j]++;
-                
+
                 if(num[i]/j != j)
                 {
                     divisors[num[i]/j]++;
