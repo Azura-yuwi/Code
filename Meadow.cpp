@@ -28,6 +28,7 @@ int main()
         }
     }
     
+    /*
     ll dp[k+1][n][n] = {-1000000};
 
     for(int i = 0; i < n; i++)
@@ -58,6 +59,7 @@ int main()
         }
     }
 
-    cout << dp[k][0][n-1];
+    cout << dp[k][0][n-1];*/
+
     return 0;
 }
