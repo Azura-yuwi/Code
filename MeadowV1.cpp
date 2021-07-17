@@ -62,7 +62,10 @@ int main()
     {
         for(int j = 0; j < n-1; j++)
         {
-            dp[i][j] = dp[i-1][j] + start[j+1];
+            for(int k = 0; k < j; k++)
+            {
+                dp[i][j] = max(dp[i][j], dp[i-1][k] + start[k+1]);
+            }
         }
     }
 
