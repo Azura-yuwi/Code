@@ -1,5 +1,5 @@
 //CSES Intro Set;
-//Strings?
+//Strings & sort of brute force
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -12,8 +12,9 @@ int main()
     vector<ll> perm[9];
     perm[1].pb(1);
 
-    int n;
-    cin >> n;
+    string s;
+    cin >> s;
+    int n = s.length();
 
    // cout << ((ll)1/pow(10,1)) << endl;
 
@@ -32,8 +33,25 @@ int main()
         }
     }
 
-    for(ll i : perm[n])
+    set<string> strs;
+
+    for(int i : perm[n])
     {
-        //cout << i << endl;
+        string make = "";
+
+        while(i > 0)
+        {
+            make = s[i%10 - 1] + make;
+            i /= 10;
+        }
+
+        strs.insert(make);
+    }
+
+    cout << strs.size() << endl;
+
+    for(string i : strs)
+    {
+        cout << i << endl;
     }
 }

@@ -1,7 +1,8 @@
 //USACO Guide Point Update Range Sum
 //CSES Range Queries
-//Segment Trees/BinaryIndexTree?
-
+//Segment Trees
+//Basic Structure of Segment Tree;
+ 
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
@@ -10,12 +11,12 @@ using namespace std;
 
 template<class T> struct segment_tree
 {
-    const T INF = 0;
-    int n; vector<T> segTree;
+    const T INF = 1e9+10;
+    int n; vector<int> segTree;
 
-    T func(T a, T b)
+    T func(T a, T b) //function of segment tree
     {
-        return a+b;
+        return min(a,b);
     }
 
     void init(int size)
@@ -26,30 +27,26 @@ template<class T> struct segment_tree
 
     void upd(int p, T v)
     {
-        segTree[p += n] += v;
-
-        //cout << "UPDATING" << endl;
-        //cout << "SET " << p << " " << v << endl;
+        segTree[p += n] = v;
 
         for(p /= 2; p > 0; p /= 2)
         {
             segTree[p] = func(segTree[2*p], segTree[2*p+1]);
-           // cout << "SET " << p << " " << segTree[p] << endl;
         }
     }
 
     T query(int l, int r) //interval [l, r)
     {
-        T ans = 0;
+        T ans = INF;
     
         for(l += n, r += n; l < r; l /= 2, r /= 2) 
         {
-            if(l&1)
+            if(l&1) //&1 true -- > right component; left element + l < r --> you can move up the tree
             {
                 ans = func(ans, segTree[l++]); //same as func(ans, segTree[l]); l++
             }
 
-            if(r&1)
+            if(r&1) //remember r), if r is right element -> right bound is an left element; r = left element --> you can move up the tree;
             {
                 ans = func(ans, segTree[--r]); //same as func(ans, segTree[r-1]); r--;
             }
@@ -59,45 +56,35 @@ template<class T> struct segment_tree
     }
 };
 
-segment_tree<ll> tree;
+segment_tree<int> tree;
 
 int main()
 {
     int n,q;
     cin >> n >> q;
 
-    tree.init(n+2);
+    tree.init(n);
+    int val[n];
 
-    int val[n+2];
-    val[0] = 0;
-    val[n+1] = 0;
-    
-    for(int i = 1; i <= n; i++)
+    for(int i = 0; i < n; i++)
     {
         cin >> val[i];
-        tree.upd(i, val[i] - val[i-1]);
+        tree.upd(i, val[i]);
     }
-
-    tree.upd(n+1, val[n+1] - val[n]);
 
     for(int i = 0; i < q; i++)
     {
-        int t;
-        cin >> t;
+        int t,a,b;
+        cin >> t >> a >> b;
 
         if(t == 1)
         {
-            int a, b, u;
-            cin >> a >> b >> u;
-            tree.upd(a, u);
-            tree.upd(b+1, -u);
+            tree.upd(a-1, b);
         }
         else
         {
-            int k;
-            cin >> k;
-
-            cout << tree.query(0, k+1) << endl;
+            cout << tree.query(a-1, b) << endl;
         }
     }
+
 }

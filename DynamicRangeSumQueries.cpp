@@ -1,7 +1,8 @@
 //USACO Guide Point Update Range Sum
 //CSES Range Queries
-//Segment Trees/BinaryIndexTree?
-
+//Segment Trees
+//Basic Structure of Segment Tree;
+ 
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
@@ -10,7 +11,7 @@ using namespace std;
 
 template<class T> struct segment_tree
 {
-    const T INF = 0;
+    const T INF = 1e18+10;
     int n; vector<T> segTree;
 
     T func(T a, T b)
@@ -26,15 +27,11 @@ template<class T> struct segment_tree
 
     void upd(int p, T v)
     {
-        segTree[p += n] += v;
-
-        //cout << "UPDATING" << endl;
-        //cout << "SET " << p << " " << v << endl;
+        segTree[p += n] = v;
 
         for(p /= 2; p > 0; p /= 2)
         {
             segTree[p] = func(segTree[2*p], segTree[2*p+1]);
-           // cout << "SET " << p << " " << segTree[p] << endl;
         }
     }
 
@@ -65,39 +62,26 @@ int main()
 {
     int n,q;
     cin >> n >> q;
+    tree.init(n);
 
-    tree.init(n+2);
-
-    int val[n+2];
-    val[0] = 0;
-    val[n+1] = 0;
-    
-    for(int i = 1; i <= n; i++)
+    for(int i = 0; i < n; i++)
     {
-        cin >> val[i];
-        tree.upd(i, val[i] - val[i-1]);
+        int a; cin >> a;
+        tree.upd(i, a);
     }
-
-    tree.upd(n+1, val[n+1] - val[n]);
 
     for(int i = 0; i < q; i++)
     {
-        int t;
-        cin >> t;
-
+        int t, a, b;
+        cin >> t >> a >> b;
+    
         if(t == 1)
         {
-            int a, b, u;
-            cin >> a >> b >> u;
-            tree.upd(a, u);
-            tree.upd(b+1, -u);
+            tree.upd(a-1, b);
         }
         else
         {
-            int k;
-            cin >> k;
-
-            cout << tree.query(0, k+1) << endl;
+            cout << tree.query(a-1,b) << endl;
         }
     }
 }

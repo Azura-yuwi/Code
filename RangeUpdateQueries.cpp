@@ -1,6 +1,7 @@
 //USACO Guide Point Update Range Sum
 //CSES Range Queries
 //Segment Trees/BinaryIndexTree?
+//for some reason this doesn't run on just this file, you can copy this to different file
 
 #include <bits/stdc++.h>
 using namespace std;
