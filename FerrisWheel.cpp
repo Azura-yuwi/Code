@@ -1,5 +1,5 @@
 //CSES Sorting and Searching Set
-//sort and search...
+//Two Pointer? ish
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -9,8 +9,9 @@ using namespace std;
 
 int main()
 {
-    int n;
-    cin >> n;
+    int n, w;
+    cin >> n >> w;
+
     int val[n];
 
     for(int i = 0; i < n; i++)
@@ -20,16 +21,17 @@ int main()
 
     sort(val, val+n);
 
-    int tot = n;
+    int point = 0;
 
-    for(int i = 1; i < n; i++)
+    int i;
+
+    for(i = n-1; i >= point; i--)
     {
-        if(val[i] == val[i-1])
+        if(val[i] + val[point] <= w)
         {
-            tot--;
+            point++;
         }
     }
 
-    cout << tot;
-
+    cout << n-i-1;
 }
