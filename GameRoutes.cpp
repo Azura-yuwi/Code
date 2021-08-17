@@ -22,22 +22,27 @@ int main()
         val[i] = 0;
     }
 
+    val[0] = 1;
+
     for(int i = 0; i < m; i++)
     {
         int a, b;
         cin >> a >> b;
-        adj[a-1].pb(b-1);
-        in[b-1]++;
+
+        if(b != 1)
+        {
+            adj[a-1].pb(b-1);
+            in[b-1]++;
+        }
     }
 
     queue<int> q;
 
-    for(int i = 0; i < n; i++)
+    for(int i = n-1; i >= 0; i--)
     {
         if(in[i] == 0)
         {
             q.push(i);
-            val[i] = 1;
         }
     }
 
