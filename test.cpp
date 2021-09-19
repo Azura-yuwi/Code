@@ -5,37 +5,29 @@ using namespace std;
 #define pb push_back
 #define mp make_pair
 
+int gcd(int a, int b)
+{
+    if (a > b)
+    {
+        int temp = a;
+        a = b; b = temp;
+    }
+
+    while(b%a != 0)
+    {
+        int temp = a;
+        a = b%a; b = temp;
+    }
+
+    return a;
+}
+
 int main()
 {
     ofstream fout ("windows.out");
     ifstream fin ("windows.in");
 
-    int n, k;
-    fin >> n >> k;
-    //cin >> n >> k;
-
-    int dirt[n];
-
-    for(int i = 0; i < n; i++)
-    {
-        //cin >> dirt[i];
-        fin >> dirt[i];
-    }
-
-    sort(dirt, dirt+n);
-
-    int cul = 0;
-
-    for(int i = 0; i < n; i++)
-    {
-        cul += dirt[i];
-
-        if(cul > k)
-        {
-            //cout << i; 
-            fout << i;
-            return 0;
-        }
-    }
+    int a,b; cin >> a >> b;
+    cout << gcd(a,b) << endl;
 
 }
