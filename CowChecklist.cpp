@@ -67,6 +67,4 @@ int main()
     }
 
     fout << dp[h-1][g].first;
-
-
 }

@@ -7,6 +7,7 @@
 using namespace std;
 #define pb push_back
 #define mp make_pair
+#define ll long long
 #define f first
 #define s second
 
@@ -20,12 +21,12 @@ int main()
 
     int n, m; fin >> n >> m;
 
-    long fx, fy, bx, by; fin >> fx >> fy >> bx >> by;
+    ll fx, fy, bx, by; fin >> fx >> fy >> bx >> by;
 
-    pair<long, long> fpt[n+1];
-    pair<long, long> bpt[m+1];
+    pair<ll, ll> fpt[n+1];
+    pair<ll, ll> bpt[m+1];
     
-    long dp[n+1][m+1];
+    ll dp[n+1][m+1];
     dp[0][0] = 0;
 
     fpt[0] = mp(fx, fy); bpt[0] = mp(bx, by);
@@ -53,7 +54,6 @@ int main()
         
         dp[0][i] = pow(bpt[i].f - fx, 2) + pow(bpt[i].s - fy, 2) + dp[0][i-1];
     }
-
 
     for(int i = 1; i <= n; i++)
     {
