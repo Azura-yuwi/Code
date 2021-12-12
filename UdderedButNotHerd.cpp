@@ -63,5 +63,5 @@ int main()
         }
     }
 
-    cout << dp[(1<<uniq) - 1] << endl;
+    cout << dp[(1<<uniq) - 1];
 }
