@@ -1,4 +1,4 @@
-//ASCL 2020-2021 Contest 1 Intermediate
+//ASCL 2020-2021 Contest 1 Junior
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -42,7 +42,7 @@ ll solv(ll s, ll d, ll r)
 {
     int num = digitSum(s);
     int delta = d;
-    int sum = 0;
+    ll sum = 0;
 
     for(int i = 1; i < r; i++)
     {
