@@ -21,8 +21,7 @@ ll digitSum(ll num, ll b)
 
 ll octToDec(string s)
 {
-    ll ans = 0;
-    
+    ll ans = 0;  
     for(int i = 0; i < s.size(); i++)
     {
         ans *= 8;
