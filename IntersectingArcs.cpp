@@ -10,7 +10,6 @@ int main()
     ll pre[n+1][k+2];
     memset(pre, 0, sizeof(pre));
     memset(dp, 0, sizeof(dp));
-    //cout << sizeof(dp) << endl;
 
     dp[1][0][0] = 1;
     dp[1][1][0] = 1;
@@ -48,18 +47,14 @@ int main()
                     dp[index][open][sect] += ( (pre[open+1][sect+1] - pre[open+1][sect - min(open,sect)] + mod) %mod); 
                     dp[index][open][sect] %= mod;
 
-                    /* //times out in last case
+                    /* times out in last case
                     for(int canSect = 0; canSect <= min(open, sect); canSect++)
                     {
                         dp[i][open][sect] += dp[i-1][open+1][sect-canSect];
                         dp[i][open][sect] %= mod;
                     }*/
                 }
-
-                //cout << dp[index][open][sect] << " ";
             }
-
-            //cout << endl;
         }
     }
 

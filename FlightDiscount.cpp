@@ -12,7 +12,7 @@ int n;
 
 struct Sort 
 {
-    bool operator() (T const& p1, T const& p2)
+    bool operator() (T const& p1, T const& p2) 
     {
         if(p1.first == p2.first)
         {

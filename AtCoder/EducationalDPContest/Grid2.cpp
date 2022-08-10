@@ -1,3 +1,5 @@
+//EGOI Training Camp 2022
+
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
@@ -7,8 +9,8 @@ using namespace std;
 #define s second
 
 const ll mod = 1e9 + 7;
-ll fact[100005];
-ll inv[100005];
+ll fact[200005];
+ll inv[200005];
 
 ll invMod(ll n) //fermat little a^(p-2)
 {
@@ -45,7 +47,7 @@ int main()
 {
     int h,w,n; cin >> h >> w >> n;
     pair<int,int> wall[n];
-    ll direct[n];
+    ll direct[n]; //wall[i] is the first wall hit on the path
 
     for(int i = 0; i < n; i++)
     {
@@ -53,14 +55,10 @@ int main()
     }
 
     fillFact(h+w-2);
+
     ll total = binom(h+w-2, w-1);
 
     sort(wall, wall+n);
-
-    for(int i = 0; i < n; i++)
-    {
-        cout << wall[i].f << " " << wall[i].s << endl;
-     }
 
     for(int i = 0; i < n; i++)
     {
@@ -70,7 +68,7 @@ int main()
         {
             if(wall[j].s <= wall[i].s)
             {
-                ll sub = direct[i-1]*binom(wall[i].f+wall[i].s - wall[j].f - wall[j].s], wall[i].f - wall[i].s));
+                ll sub = direct[j]*binom(wall[i].f+wall[i].s - wall[j].f - wall[j].s, wall[i].f - wall[j].f); //wall[j] to wall[i]
                 direct[i] = (direct[i] - sub%mod + mod)%mod;
             }
         }
@@ -78,7 +76,8 @@ int main()
 
     for(int i = 0; i < n; i++)
     {
-        total =  (total - direct[i] + mod)%mod;
+        ll toSub = direct[i]*binom(h+w-wall[i].f - wall[i].s, h-wall[i].f); //from wall[i] to last square
+        total =  (total - toSub%mod + mod)%mod;
     }
 
     cout << total;
