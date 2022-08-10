@@ -1,37 +1,69 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define ll long long
+#define pb push_back
+#define mp make_pair
+#define f first
+#define s second
+
+int root[100000];
+
+int find(int a)
+{
+    if(root[a] < 0)
+    {
+        return a;
+    }
+
+    root[a] = find(root[a]);
+    return root[a];
+}
+
+bool unite(int a, int b)
+{
+    a = find(a); b = find(b);
+
+    if(a == b) return false;
+
+    if(root[a] > root[b]) {swap(a,b);}
+    //now a has more elements than b
+
+    root[a] += root[b];
+    root[b] = a;
+    return true;
+}
+
 
 int main()
 {
-    int t; cin >> t; 
-    cout << "read " << t << endl;
-    
-    for(int test = 1; test <= t; test++)
-    {
-        string s; cin >> s; 
-        cout << "read " << s << endl;
-        char c = s[s.length() - 1];
-        string get; 
-		get += c;
+    int n,m; cin >> n >> m;
 
-		//cout << "build ";
-		//cout << get << endl;
-        
-        for(int i = s.length()-2; i >= 0; i--)
+    for(int i = 0; i < n; i++)
+    {
+        root[i] = -1;
+    }
+
+    vector<int> edges;
+
+    for(int i = 1; i <= m; i++)
+    {
+        int a,b; cin >> a >> b; a--; b--;
+
+        if(unite(a,b))
         {
-            if(s[i] < c)
-            {
-                get = s[i] + get;
-            }
-            else
-            {
-                c = s[i];
-            }
-            
-            get = s[i] + get;
-			cout << "loop " << get<< endl;
+            edges.pb(i);
         }
-        
-        cout << "Case #" << test << ": " << get << endl;
+    }
+
+    if(edges.size() != n-1)
+    {
+        cout << "Disconnected Graph";
+    }
+    else
+    {
+        for(int i : edges)
+        {
+            cout << i << endl;
+        }
     }
 }
