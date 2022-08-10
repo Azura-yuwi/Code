@@ -1,3 +1,6 @@
+//literal joke solution
+//so made O(1) solution jeez
+
 #include<bits/stdc++.h>
 using namespace std;
 #define ll long long

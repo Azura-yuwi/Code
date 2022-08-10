@@ -110,7 +110,7 @@ int main()
 
     for(auto add : edges)
     {
-        int cost, a, b; tie(cost, a, b) = add;
+        ll cost; int a, b; tie(cost, a, b) = add;
         
         if(D.unite(a,b))
         {

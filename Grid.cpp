@@ -47,18 +47,15 @@ int main()
 {
     int h,w,n; cin >> h >> w >> n;
     pair<int,int> wall[n];
-    ll direct[n];
+    ll direct[n]; //paths from (1,1) to ith wall and ith is first wall encountered
 
     for(int i = 0; i < n; i++)
     {
         int a,b; cin >> a >> b; wall[i] = mp(a,b); direct[i] = 0;
     }
 
-    //cout << "read" << endl;
-
     fillFact(h+w-2);
 
-    //cout << "filled" << endl;
     ll total = binom(h+w-2, w-1);
 
     sort(wall, wall+n);
@@ -66,28 +63,25 @@ int main()
     for(int i = 0; i < n; i++)
     {
         direct[i] = binom(wall[i].f + wall[i].s - 2, wall[i].f-1);
-       // cout << "init " << i << " " << direct[i] << endl;
 
         for(int j = 0; j < i; j++)
         {
-            if(wall[j].s <= wall[i].s)
+            if(wall[j].s <= wall[i].s)// can go from j to i
             {
                 ll sub = direct[j]*binom(wall[i].f+wall[i].s - wall[j].f - wall[j].s, wall[i].f - wall[j].f);
-                //cout << i << " " << j << " " << sub << endl;
                 direct[i] = (direct[i] - sub%mod + mod)%mod;
             }
         }
-
-        //cout << i << " direct " << direct[i] << endl;
     }
-
-    //cout << endl;
 
     for(int i = 0; i < n; i++)
     {
-        //cout << "direct " << direct[i] << endl;
-        ll toSub = direct[i]*binom(h+w-wall[i].f - wall[i].s, h-wall[i].f);
+        ll toSub = direct[i]*binom(h+w-wall[i].f - wall[i].s, h-wall[i].f); //(1,1) to wall then to end
         total =  (total - toSub%mod + mod)%mod;
+
+        //we know this doesn't overlap 
+        //because each time we get the path 
+        //where the ith wall is the first wall encountered
     }
 
     cout << total;
