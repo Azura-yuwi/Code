@@ -29,7 +29,11 @@ int main()
     {
         for(int j = 0; j < i; j++)
         {
-            dp[i] = min(dp[i], dp[j] + (h[i] - h[j])*(h[i] - h[j]) + c);
+            if(dp[j] + (h[i] - h[j])*(h[i] - h[j]) + c < dp[i])
+            {
+                dp[i] = min(dp[i], dp[j] + (h[i] - h[j])*(h[i] - h[j]) + c);
+                cout << "update " << i << " " << j << endl;
+            }
         }
     }
 

@@ -25,7 +25,7 @@ int query(int i)
 
     for(; i > 0; i -= i&(-i))
     {
-        sum += bit[i]; sum%= mod;
+        sum += bit[i]; sum %= mod;
     }
 
     return sum;
@@ -34,6 +34,9 @@ int query(int i)
 
 int main()
 {
+    ios::sync_with_stdio(0);
+	cin.tie(0);
+
     int n,k; cin >> n >> k; sz = k+1;
     bit.assign(k+2, 0);
     upd(1,1);
@@ -48,8 +51,9 @@ int main()
     {
         for(int j = k+1; j > 0; j--)
         {
-            int val = (query(j) - query(max(0,j-can[i]-1)) + mod)%mod;
-            upd(j, (-1)*((query(j) - query(j-1)+mod))%mod);
+            int get = query(j);
+            int val = (get - query(max(0,j-can[i]-1)) + mod)%mod;
+            upd(j, (-1)*((get - query(j-1)+mod))%mod);
             upd(j, val);
         }
     }

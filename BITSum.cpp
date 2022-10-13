@@ -26,6 +26,7 @@ void upd(int i, ll v)
 ll query(int i)
 {
     ll sum = 0;
+    
     for(; i > 0; i -= i&(-i))
     {
         sum += bit[i];
