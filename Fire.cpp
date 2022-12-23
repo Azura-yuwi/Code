@@ -1,12 +1,12 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 #define ll long long
-#define mp make_pair
 #define pb push_back
+#define mp make_pair
 #define f first
 #define s second
 
 int main()
 {
-
+    
 }

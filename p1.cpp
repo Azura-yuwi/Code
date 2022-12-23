@@ -6,81 +6,60 @@ using namespace std;
 #define f first
 #define s second
 
-int twos(int a)
-{
-    int ans = 0;
-
-    while(a != 0)
-    {
-        while(a%2 == 0)
-        {
-            a /= 2;
-        }
-
-        a--;
-        ans++;
-    }
-
-    return ans;
-}
-
 int main()
 {
-    int n,k; cin >> n >> k;
-    int adj[n][n];
-    int dp[(1<<n)];
+    int n,a,b; cin >> n >> a >> b;
+    int pop[n]; int brib[n]; int cos[n];
 
     for(int i = 0; i < n; i++)
     {
-        for(int j = 0; j < n; j++)
+        cin >> pop[i] >> brib[i] >> cos[i];
+    }
+
+    int dp[a+1][b+1];
+
+    for(int i = 0; i <= a ; i++)
+    {
+        for(int j = 0; j <= b; j++)
         {
-            cin >> adj[i][j];
+            dp[i][j] = 0;
         }
     }
-    
-    for(int i = 0; i < (1<<n); i++)
+
+    for(int k = 0; k < n; k++)
     {
-        dp[i] = INT_MAX;
-    }
-
-    dp[(1<<n) - 1]  = 0;
-
-    if(n == k)
-    {
-        cout << 0 << endl;
-        return 0;
-    }
-
-    int ans = INT_MAX;
-
-    for(int val = (1<<n) - 1; val > 0; val--)
-    {
-        if(twos(val) == k)
+        for(int i = a; i >= 0; i--)
         {
-            ans = min(ans, dp[val]);
-        }
-        else
-        {
-
-            for(int i = 0; i < n; i++) //get rid of i
+            for(int j = b; j >= 0; j--)
             {
-                if((val&(1<<i)) != 0)
-                {
-                    for(int j = 0; j < n; j++) //dump i into j;
-                    { 
-                        if(i != j )
-                        {
-                            if((val&(1<<j)) != 0)
-                            {
-                                dp[val - (1<<i)] = min(dp[val - (1<<i)], dp[val] + adj[i][j]);
-                            }
-                        }
-                    }
-                }    
-            }
+                //dp[i][j][k+1] = dp[i][j][k];
 
+                int mult = 0;
+
+                while(mult*cos[k] <= j && mult <= brib[k])
+                {
+                    if(i >= brib[k]-mult)
+                    {
+                        dp[i][j] = max(dp[i][j], dp[i-brib[k]+mult][j-mult*cos[k]]+ pop[k]);
+                    }
+
+                    mult++;
+                }
+            }
         }
+    }
+
+    int ans = 0;
+
+    for(int i = 0; i <= a; i++)
+    {
+        for(int j = 0; j <= b; j++)
+        {
+            ans = max(ans, dp[i][j]);
+        }   
     }
 
     cout << ans;
+
+
 }

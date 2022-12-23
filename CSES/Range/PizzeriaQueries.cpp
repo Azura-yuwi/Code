@@ -18,10 +18,9 @@ void upd(int p, int v)
     for(p /= 2; p > 0; p /= 2)
     {
         seg[p] = mp(seg[2*p].f, seg[2*p+1].s);
-        sTree[p] = mp(min(sTree[2*p].f, sTree[2*p+1].f + seg[2*p+1].f - seg[2*p].f), min(sTree[2*p+1].s, sTree[2*p].f + seg[2*p+1].s - seg[2*p].s));
+        sTree[p] = mp(min(sTree[2*p].f, sTree[2*p+1].f + seg[2*p+1].f - seg[2*p].f), min(sTree[2*p+1].s, sTree[2*p].s + seg[2*p+1].s - seg[2*p].s));
     }
 }
-
 
 int lquery(int l, int r) //[l,r)
 {
@@ -30,23 +29,21 @@ int lquery(int l, int r) //[l,r)
 
     for(l += sz, r += sz; l < r; l /= 2, r /= 2)
     {
-        
         if(l&1)
         {
             ans = min(ans, sTree[l].first + seg[l].first - oL); l++;
         }
 
-        //if(r&1)
-        //{
-          //  r--;
-           // ans = min(ans, sTree[r].first, seg[r].first - oL);
-      //  } 
+        if(r&1)
+        {
+            r--;
+            ans = min(ans, sTree[r].first + seg[r].first - oL);
+        }
     }
 
     return ans; 
 }
 
-/*
 int rquery(int l, int r)
 {
     int ans = INT_MAX;
@@ -56,7 +53,7 @@ int rquery(int l, int r)
     {
         if(l&1)
         {
-            ans = min(ans, sTree[l].second + oR - seg[l].second);
+            ans = min(ans, sTree[l].second + oR - seg[l].second); l++;
         }
 
         if(r&1)
@@ -67,7 +64,7 @@ int rquery(int l, int r)
     }
 
     return ans; 
-}*/
+}
 
 int main()
 {
@@ -79,7 +76,6 @@ int main()
         int get; cin >> get; upd(i, get);
     }
 
-/*
     for(int i = 0; i < q; i++)
     {
         int type; cin >> type;
@@ -95,5 +91,5 @@ int main()
             int ans = min(left,right);
             cout << ans << endl;
         }
-    }*/
+    }
 }
