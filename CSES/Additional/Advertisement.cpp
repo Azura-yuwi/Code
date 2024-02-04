@@ -1,4 +1,4 @@
-//CSES/USACO Guide
+//CSES / USACO Guide
 //Monotonic Stack
 
 #include <bits/stdc++.h>

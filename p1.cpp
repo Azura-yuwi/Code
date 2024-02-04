@@ -8,58 +8,59 @@ using namespace std;
 
 int main()
 {
-    int n,a,b; cin >> n >> a >> b;
-    int pop[n]; int brib[n]; int cos[n];
+    int n; cin >> n;
+    int res[n-1][n-1];
+    int path[n][n];
 
-    for(int i = 0; i < n; i++)
+    for(int i = 0; i < n-1; i++)
     {
-        cin >> pop[i] >> brib[i] >> cos[i];
-    }
+        string str; cin >> str;
 
-    int dp[a+1][b+1];
-
-    for(int i = 0; i <= a ; i++)
-    {
-        for(int j = 0; j <= b; j++)
+        for(int j = 0; j < str.size(); j++)
         {
-            dp[i][j] = 0;
+            if(str[j] == '0')
+            {
+                res[i][j] = 0;
+            }
+            else
+            {
+                res[i][j] = 1;
+            }
         }
     }
 
-    for(int k = 0; k < n; k++)
+    int odd[n][n];
+
+    for(int i = 0; i < n; i++)
     {
-        for(int i = a; i >= 0; i--)
+        for(int j = 0; j < n; j++)
         {
-            for(int j = b; j >= 0; j--)
-            {
-                //dp[i][j][k+1] = dp[i][j][k];
-
-                int mult = 0;
-
-                while(mult*cos[k] <= j && mult <= brib[k])
-                {
-                    if(i >= brib[k]-mult)
-                    {
-                        dp[i][j] = max(dp[i][j], dp[i-brib[k]+mult][j-mult*cos[k]]+ pop[k]);
-                    }
-
-                    mult++;
-                }
-            }
+            odd[i][j] = 0; path[i][j] = 0;
         }
     }
 
     int ans = 0;
 
-    for(int i = 0; i <= a; i++)
+    for(int i = n-2; i >= 0; i--)
     {
-        for(int j = 0; j <= b; j++)
+        for(int j = 1; j < n-i; j++)
         {
-            ans = max(ans, dp[i][j]);
-        }   
+            for(int k = 1; k < j; k++)
+            {
+                odd[i][i+j] += (odd[i+k][i+j]*path[i][i+k]);
+            }
+
+            if(res[i][j-1] != (odd[i][i+j]%2))
+            {
+                ans += 1;
+                path[i][i+j] = 1;
+                odd[i][i+j] += 1; 
+            }
+
+            odd[i][i+j] %= 2;
+        }
     }
 
     cout << ans;
-
 
 }

@@ -1,99 +1,36 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-#define ll long long
-#define pb push_back
-#define mp make_pair
-#define f first
-#define s second
 
-vector<pair<int,int>> sTree; //leftQ, rightQ, 
-vector<pair<int,int>> seg; //leftEnd, rightEnd
-int sz;
+const int MAXN = 2e5 + 5;
+const int MAXD = 30;  // ceil(log2(10^9))
 
-void upd(int p, int v)
-{
-    sTree[p += sz] = mp(v,v);
-    seg[p] = mp(p-sz, p-sz);
-    
-    for(p /= 2; p > 0; p /= 2)
-    {
-        seg[p] = mp(seg[2*p].f, seg[2*p+1].s);
-        sTree[p] = mp(min(sTree[2*p].f, sTree[2*p+1].f + seg[2*p+1].f - seg[2*p].f), min(sTree[2*p+1].s, sTree[2*p].f + seg[2*p+1].s - seg[2*p].s));
-    }
+// number of planets and queries
+int n, q;
+// parent matrix where [i][j] corresponds to i's (2^j)th parent
+int parent[MAXN][MAXD];
+
+int jump(int a, int d) {
+	for (int i = 0; i < MAXD; i++)
+		if (d & (1 << i)) a = parent[a][i];
+	return a;
 }
 
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	ifstream fin("test.in");
 
-int lquery(int l, int r) //[l,r)
-{
-    int ans = INT_MAX;
-    int oL = l; 
-
-    for(l += sz, r += sz; l < r; l /= 2, r /= 2)
-    {
-        
-        if(l&1)
-        {
-            ans = min(ans, sTree[l].first + seg[l].first - oL); l++;
-        }
-
-        //if(r&1)
-        //{
-          //  r--;
-           // ans = min(ans, sTree[r].first, seg[r].first - oL);
-      //  } 
-    }
-
-    return ans; 
-}
-
-/*
-int rquery(int l, int r)
-{
-    int ans = INT_MAX;
-    int oR = r-1; 
-
-    for(l += sz, r +=sz; l < r; l /= 2, r /= 2)
-    {
-        if(l&1)
-        {
-            ans = min(ans, sTree[l].second + oR - seg[l].second);
-        }
-
-        if(r&1)
-        {
-            r--;
-            ans = min(ans, sTree[r].second + oR - seg[r].second);
-        }
-    }
-
-    return ans; 
-}*/
-
-int main()
-{
-    int n,q; cin >> n >> q;
-    sz = n; sTree.assign(2*n, mp(INT_MAX, INT_MAX)); seg.assign(2*n, mp(0,0));
-
-    for(int i = 0; i < n; i++)
-    {
-        int get; cin >> get; upd(i, get);
-    }
-
-/*
-    for(int i = 0; i < q; i++)
-    {
-        int type; cin >> type;
-
-        if(type == 1)
-        {
-            int a,b; cin >> a >> b;
-            upd(a-1, b);
-        }
-        else
-        {
-            int a; cin >> a; int left = rquery(0,a); int right = lquery(a-1, n);
-            int ans = min(left,right);
-            cout << ans << endl;
-        }
-    }*/
+	fin >> n >> q;
+	for (int i = 1; i <= n; i++) { fin >> parent[i][0]; }
+	// evaluate the parent matrix
+	for (int d = 1; d < MAXD; d++)
+		for (int i = 1; i <= n; i++) {
+			parent[i][d] = parent[parent[i][d - 1]][d - 1];
+		}
+	// process queries
+	while (q--) {
+		int a, d;
+		fin >> a >> d;
+		cout << jump(a, d) << '\n';
+	}
 }

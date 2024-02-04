@@ -11,73 +11,56 @@ int main()
 {
     int s,n; cin >> s >> n;
 
-    pair<int,pair<int,int>> items[n];
+    vector<pair<ll,ll>> weights[s+1];
+
+    //pair<int,pair<int,int>> items[n];
 
     for(int i = 0; i < n; i++)
     {
-        int v, w, c; cin >> v >> w >> c;
-        items[i] = mp(w, mp(v, c));
+        int v, w, k; cin >> v >> w >> k;
+        //items[i] = mp(w, mp(v, k));
+        
+        if(w <= s)
+        {
+            weights[w].pb(mp(v,k));
+        }
     }
 
-    sort(items, items + n, greater<pair<int,pair<int,int>>>());
+    for(int i = 0; i <= s; i++)
+    {
+        sort(weights[i].begin(), weights[i].end(), greater());
+    }
 
     ll dp[s+1];
 
     for(int i = 0; i <= s; i++)
     {
-        dp[i] = -1e10;
+        dp[i] = 0;
     }
 
-    dp[0] = 0;
-    int prevwgh = 0;
-    int num = 0;
-
-    int val,wgh,copy,upto;
-
-    for(int i = 0; i < n; i++)
+    for(int w = 1; w <= s; w++)
     {
-        val = items[i].second.first;
-        wgh = items[i].first;
-        copy = items[i].second.second;
-        upto = min(copy, s/wgh);
+        int i = 0; int tot = 0;
 
-        if(wgh == prevwgh && num >= s/wgh)
+        while(i < weights[w].size() && tot <= s)
         {
-            continue;
-        }
+            ll v,k; tie(v,k) = weights[w][i];
 
-        if(wgh == prevwgh)
-        {
-            num++;
-        }
-        else
-        {
-            num = 0; 
-            prevwgh = wgh;
-        }
-
-        //cout << "VAL " << val << " WEIGHT " << wgh << " COPIES " << copy << " UPTO " << upto << endl; 
-
-        for(int k = s; k >= wgh; k--)
-        {
-            for(int j = 1; j <= upto; j++)
+            for(int j = s; j >= w; j--)
             {
-                if(k >= wgh*j && (dp[k] != -1e10 || dp[k-wgh*j] != -1e10))
-                { 
-                    dp[k] = max(dp[k], dp[k-wgh*j] + val*j);
-                }
+                dp[j] = max(dp[j], dp[j-w] + v);
             }
 
-            //cout << "K " << k << " " << dp[k] << endl;
+            weights[w][i].second -= 1; 
+
+            if(k == 1)
+            {
+                i++;
+            }
+
+            tot += w;
         }
     }
 
-    ll ans = 0;
-
-    for(int i = 0; i <= s; i++)
-    {
-        ans = max(ans, dp[i]);
-    }
-
-    cout << ans;
+    cout << dp[s];
 }
